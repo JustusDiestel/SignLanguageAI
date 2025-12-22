@@ -1,7 +1,7 @@
 import kagglehub
 import pandas as pd
 import torch
-from torch.utils.data import TensorDataset, DataLoader
+from torch.utils.data import TensorDataset
 
 # Download latest version
 path = kagglehub.dataset_download("datamunge/sign-language-mnist")
@@ -29,7 +29,6 @@ y_test  = torch.tensor(y_test, dtype=torch.long)
 train_ds = TensorDataset(X_train, y_train)
 test_ds  = TensorDataset(X_test, y_test)
 
-train_loader = DataLoader(train_ds, batch_size=128, shuffle=True)
-test_loader  = DataLoader(test_ds, batch_size=128)
+
 
 
