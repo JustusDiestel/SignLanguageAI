@@ -1,6 +1,6 @@
 import torch
 
-def train_one_epoch(model, loader, optimizer, criterion, device):
+def train_one_epoch(model, loader, optimizer, criterion):
     model.train()
     for X, y in loader:
         optimizer.zero_grad()
@@ -8,7 +8,7 @@ def train_one_epoch(model, loader, optimizer, criterion, device):
         loss.backward()
         optimizer.step()
 
-def evaluate(model, loader, device):
+def evaluate(model, loader):
     model.eval()
     correct, total = 0, 0
     with torch.no_grad():
