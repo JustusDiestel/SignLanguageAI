@@ -1,27 +1,19 @@
-import torch.optim as optim
-from network import model, train_loader
 import torch
-import torch.nn as nn
 
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-
-
-for epoch in range(3):
+def train_one_epoch(model, loader, optimizer, criterion, device):
     model.train()
-    correct, total = 0, 0
-
-    for X, y in train_loader:
+    for X, y in loader:
         optimizer.zero_grad()
-        logits = model(X)
-        loss = criterion(logits, y)
+        loss = criterion(model(X), y)
         loss.backward()
         optimizer.step()
 
-        _, preds = torch.max(logits, 1)
-        correct += (preds == y).sum().item()
-        total += y.size(0)
-
-
-
-
+def evaluate(model, loader, device):
+    model.eval()
+    correct, total = 0, 0
+    with torch.no_grad():
+        for X, y in loader:
+            preds = model(X).argmax(dim=1)
+            correct += (preds == y).sum().item()
+            total += y.size(0)
+    return correct / total
